@@ -27,6 +27,7 @@ public class BookingController : ControllerBase
             request.StartDate,
             request.EndDate);
 
+        // TODO: create custom Domain and Application exceptions and handle them here
         var bookingId = await _mediator.Send(command, cancellationToken);
         return CreatedAtAction(nameof(CreateBooking), new { id = bookingId }, bookingId);
     }
