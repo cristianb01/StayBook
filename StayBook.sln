@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StayBook.Api", "StayBook.Api\StayBook.Api.csproj", "{4EF61A21-177F-4CA8-8588-656B48D1CBD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StayBook.Domain", "StayBook.Domain\StayBook.Domain.csproj", "{FA33FACC-2259-41BE-BAF1-6EDC3B51C7CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StayBook.Application", "StayBook.Application\StayBook.Application.csproj", "{1FB4DE3C-FCD7-4D15-873B-654A59003A45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StayBook.Infrastructure", "StayBook.Infrastructure\StayBook.Infrastructure.csproj", "{90D39E53-BD01-48E2-8086-83C9139A1F55}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4EF61A21-177F-4CA8-8588-656B48D1CBD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EF61A21-177F-4CA8-8588-656B48D1CBD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EF61A21-177F-4CA8-8588-656B48D1CBD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EF61A21-177F-4CA8-8588-656B48D1CBD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA33FACC-2259-41BE-BAF1-6EDC3B51C7CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA33FACC-2259-41BE-BAF1-6EDC3B51C7CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA33FACC-2259-41BE-BAF1-6EDC3B51C7CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA33FACC-2259-41BE-BAF1-6EDC3B51C7CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FB4DE3C-FCD7-4D15-873B-654A59003A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FB4DE3C-FCD7-4D15-873B-654A59003A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FB4DE3C-FCD7-4D15-873B-654A59003A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FB4DE3C-FCD7-4D15-873B-654A59003A45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90D39E53-BD01-48E2-8086-83C9139A1F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90D39E53-BD01-48E2-8086-83C9139A1F55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90D39E53-BD01-48E2-8086-83C9139A1F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90D39E53-BD01-48E2-8086-83C9139A1F55}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

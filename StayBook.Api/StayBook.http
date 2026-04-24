@@ -1,0 +1,6 @@
+@StayBook_HostAddress = http://localhost:5134
+
+GET {{StayBook_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
