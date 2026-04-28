@@ -1,0 +1,71 @@
+.booking-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  max-width: 380px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  font-family: sans-serif;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  &__id {
+    font-size: 0.85rem;
+    color: #888;
+    font-weight: 500;
+  }
+
+  &__status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &--pending   { background: #fff8e1; color: #f59e0b; }
+    &--confirmed { background: #e6f4ea; color: #22c55e; }
+    &--cancelled { background: #fdecea; color: #ef4444; }
+    &--expired   { background: #f3f4f6; color: #6b7280; }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  &__label {
+    color: #888;
+  }
+
+  &__value {
+    font-weight: 500;
+    color: #222;
+  }
+
+  &__total {
+    color: #3b82f6;
+    font-weight: 700;
+  }
+
+  &__footer {
+    font-size: 0.78rem;
+    color: #aaa;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 0.75rem;
+    text-align: right;
+  }
+}

@@ -1,0 +1,31 @@
+<div class="booking-card">
+  <div class="booking-card__header">
+    <span class="booking-card__id">#{{ booking()?.id }}</span>
+    <span class="booking-card__status" [ngClass]="'booking-card__status--' + statusLabel.toLowerCase()">
+      {{ statusLabel }}
+    </span>
+  </div>
+
+  <div class="booking-card__body">
+    <div class="booking-card__row">
+      <span class="booking-card__label">Property</span>
+      <span class="booking-card__value">{{ booking()?.propertyId }}</span>
+    </div>
+    <div class="booking-card__row">
+      <span class="booking-card__label">Check-in</span>
+      <span class="booking-card__value">{{ booking()?.startDate | date:'mediumDate' }}</span>
+    </div>
+    <div class="booking-card__row">
+      <span class="booking-card__label">Check-out</span>
+      <span class="booking-card__value">{{ booking()?.endDate | date:'mediumDate' }}</span>
+    </div>
+    <div class="booking-card__row">
+      <span class="booking-card__label">Total</span>
+      <span class="booking-card__value booking-card__total">{{ booking()?.totalPrice | currency }}</span>
+    </div>
+  </div>
+
+  <div class="booking-card__footer">
+    Booked on {{ booking()?.createdAt | date:'mediumDate' }}
+  </div>
+</div>
