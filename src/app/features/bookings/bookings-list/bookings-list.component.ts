@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { BookingService } from './services/booking.service';
 import { Booking } from './models/booking.model';
-import { BookingComponent } from './booking/booking.component';
+import { BookingCardComponent } from '../booking-card/booking-card.component';
 
 @Component({
   selector: 'app-bookings-list',
   standalone: true,
-  imports: [BookingComponent],
+  imports: [BookingCardComponent],
   templateUrl: './bookings-list.component.html',
   styleUrl: './bookings-list.component.scss'
 })

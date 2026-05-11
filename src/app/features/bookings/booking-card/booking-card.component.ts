@@ -4,13 +4,13 @@ import { Booking } from '../bookings-list/models/booking.model';
 import { BookingStatus } from '../bookings-list/models/booking-status.enum';
 
 @Component({
-  selector: 'app-booking',
+  selector: 'app-booking-card',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './booking.component.html',
-  styleUrl: './booking.component.scss'
+  templateUrl: './booking-card.component.html',
+  styleUrls: ['./booking-card.component.scss']
 })
-export class BookingComponent {
+export class BookingCardComponent {
   @Input() booking!: Booking;
 
   readonly BookingStatus = BookingStatus;
