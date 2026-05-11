@@ -7,7 +7,7 @@
     </mat-sidenav>
 
     <mat-sidenav-content class="sidenav-content">
-        <app-navbar (menuToggle)="sidenavOpened = !sidenavOpened" />
+        <app-navbar (menuToggle)="sidenavOpened = !sidenavOpened" (search)="onSearchProperties($event)"/>
         <main class="main-content">
             <router-outlet />
         </main>

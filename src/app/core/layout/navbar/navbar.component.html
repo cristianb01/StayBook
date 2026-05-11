@@ -3,4 +3,16 @@
         <mat-icon>menu</mat-icon>
     </button>
     <span class="app-title">StayBook</span>
+    <mat-form-field appearance="outline" class="date-range-picker">
+        <mat-label>Select Date Range</mat-label>
+        <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker">
+            <input matStartDate formControlName="startDate" placeholder="Start date">
+            <input matEndDate formControlName="endDate" placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <button mat-icon-button (click)="onSearchButtonClick()" aria-label="Search properties">
+        <mat-icon>search</mat-icon>
+    </button>
 </mat-toolbar>
