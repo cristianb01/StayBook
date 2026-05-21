@@ -22,8 +22,8 @@ export class LayoutComponent {
     public onSearchProperties($event: SearchFilters) {
         this.router.navigate(['/properties'], {
             queryParams: {
-                startDate: $event.startDate.toISOString(),
-                endDate: $event.endDate.toISOString()
+                startDate: $event.startDate.toISOString().split('T')[0],
+                endDate: $event.endDate.toISOString().split('T')[0]
             }
         });
 
