@@ -1,11 +1,10 @@
 import { Component, ChangeDetectionStrategy, OnInit, signal, PLATFORM_ID, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from '../../property.service';
 import { SearchFilters } from '../../models/search-filters.model';
 import { Property } from '../../models/property.model';
 import { isPlatformBrowser } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
-import { CreateBooking } from '../../models/create-booking.model';
 
 @Component({
   selector: 'app-properties-page',
@@ -26,7 +25,8 @@ export class PropertiesPageComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private propertyService: PropertyService
+    private propertyService: PropertyService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -64,18 +64,7 @@ export class PropertiesPageComponent implements OnInit {
     }
   }
 
-  public async bookProperty(propertyId: number): Promise<void> {
-    try {
-      const booking: CreateBooking = {
-        userId: 1, // Replace with actual user ID
-        propertyId,
-        startDate: this.startDate,
-        endDate: this.endDate
-      };
-      await firstValueFrom(this.propertyService.createBooking(booking));
-      console.log(`Property with ID: ${propertyId} booked successfully.`);
-    } catch (error) {
-      console.error(`Error booking property with ID: ${propertyId}`, error);
-    }
+  public viewPropertyDetail(propertyId: number): void {
+    this.router.navigate(['/properties', propertyId]);
   }
 }

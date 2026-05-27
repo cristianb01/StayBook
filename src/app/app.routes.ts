@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { PropertiesPageComponent } from './features/properties/pages/properties-page/properties-page.component';
 
 export const routes: Routes = [
     {
@@ -18,6 +17,14 @@ export const routes: Routes = [
             {
                 path: 'properties',
                 loadComponent: () => import('./features/properties/pages/properties-page/properties-page.component').then(m => m.PropertiesPageComponent)
+            },
+            {
+                path: 'properties/:id',
+                loadComponent: () => import('./features/properties/pages/property-detail-page/property-detail-page.component').then(m => m.PropertyDetailPageComponent)
+            },
+            {
+                path: 'properties/:id/payment/:bookingId',
+                loadComponent: () => import('./features/properties/pages/payment-wizard-page/payment-wizard-page.component').then(m => m.PaymentWizardPageComponent)
             }
         ]
     }

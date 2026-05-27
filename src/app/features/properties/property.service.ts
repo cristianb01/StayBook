@@ -25,6 +25,10 @@ export class PropertyService {
       return this.httpClient.get<Property[]>(`${this.apiUrl}/api/v1/property`, { params });
   }
   
+  public getPropertyById(id: number): Observable<Property> {
+      return this.httpClient.get<Property>(`${this.apiUrl}/api/v1/property/${id}`);
+  }
+
   public createBooking(booking: CreateBooking): Observable<any> {
       return this.httpClient.post(`${this.apiUrl}/api/v1/booking`, booking);
   }

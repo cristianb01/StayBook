@@ -1,0 +1,84 @@
+<div class="property-detail">
+  <button class="property-detail__back" (click)="goBack()">← Back to Properties</button>
+
+  @if (isLoading()) {
+    <div class="property-detail__loading">
+      <div class="spinner"></div>
+      <p>Loading property details...</p>
+    </div>
+  } @else if (hasError()) {
+    <div class="property-detail__error">
+      <p>Unable to load property details. Please try again.</p>
+    </div>
+  } @else if (property()) {
+    <div class="property-detail__card">
+      <div class="property-detail__gallery">
+        <div class="property-detail__gallery-placeholder">
+          <span>No photos available</span>
+        </div>
+      </div>
+
+      <div class="property-detail__content">
+        <div class="property-detail__header">
+          <h1 class="property-detail__title">{{ property()!.name }}</h1>
+          <span class="property-detail__id">ID #{{ property()!.id }}</span>
+        </div>
+
+        <div class="property-detail__meta">
+          <div class="property-detail__meta-item">
+            <span class="property-detail__meta-label">Host</span>
+            <span class="property-detail__meta-value">Host #{{ property()!.hostId }}</span>
+          </div>
+        </div>
+
+        @if (property()!.description) {
+          <div class="property-detail__description">
+            <h2>About this property</h2>
+            <p>{{ property()!.description }}</p>
+          </div>
+        }
+
+        <div class="property-detail__amenities">
+          <h2>Amenities</h2>
+          <ul class="property-detail__amenities-list">
+            <li>Wi-Fi</li>
+            <li>Air conditioning</li>
+            <li>Kitchen</li>
+            <li>Parking</li>
+          </ul>
+        </div>
+
+        <div class="property-detail__cta">
+          <div class="property-detail__stay-form">
+            <h2>Your stay</h2>
+            <div class="property-detail__stay-row">
+              <div class="property-detail__stay-field">
+                <label for="startDate">Check-in</label>
+                <input id="startDate" type="date" [(ngModel)]="startDate" />
+              </div>
+              <div class="property-detail__stay-field">
+                <label for="endDate">Check-out</label>
+                <input id="endDate" type="date" [(ngModel)]="endDate" />
+              </div>
+              <div class="property-detail__stay-field property-detail__stay-field--guests">
+                <label for="guests">Guests</label>
+                <select id="guests" [(ngModel)]="guests">
+                  <option [value]="1">1 guest</option>
+                  <option [value]="2">2 guests</option>
+                  <option [value]="3">3 guests</option>
+                  <option [value]="4">4+ guests</option>
+                </select>
+              </div>
+            </div>
+            <button
+              class="property-detail__book-btn"
+              [disabled]="!startDate || !endDate || isBooking()"
+              (click)="onBook()">
+              {{ isBooking() ? 'Booking...' : 'Book' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

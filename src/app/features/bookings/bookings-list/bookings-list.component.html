@@ -1,6 +1,5 @@
 @for (booking of bookings(); track booking.id) {
   <app-booking-card 
-    [booking]="booking"
-    (payAndConfirm)="onPayAndConfirm($event)">
+    [booking]="booking">
   </app-booking-card>
 }

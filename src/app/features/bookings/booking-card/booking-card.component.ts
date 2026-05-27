@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Booking } from '../bookings-list/models/booking.model';
 import { BookingStatus } from '../bookings-list/models/booking-status.enum';
 
@@ -12,15 +13,15 @@ import { BookingStatus } from '../bookings-list/models/booking-status.enum';
 })
 export class BookingCardComponent {
   @Input() booking!: Booking;
-  @Output() payAndConfirm = new EventEmitter<number>();
 
+  private readonly _router = inject(Router);
   readonly BookingStatus = BookingStatus;
 
   get statusLabel(): string {
     return BookingStatus[this.booking.status];
   }
 
-  onPayAndConfirm(): void {
-    this.payAndConfirm.emit(this.booking.id);
+  onBook(): void {
+    this._router.navigate(['/properties', this.booking.propertyId]);
   }
 }

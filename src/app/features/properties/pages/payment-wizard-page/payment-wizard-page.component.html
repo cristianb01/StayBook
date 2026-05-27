@@ -1,0 +1,133 @@
+<div class="wizard">
+  <button class="wizard__back" (click)="goBack()">← Back to Property</button>
+
+  <h1 class="wizard__title">Complete your booking</h1>
+
+  @if (paymentDone()) {
+    <!-- Success state -->
+    <div class="wizard__body">
+      <div class="wizard__panel wizard__panel--success">
+        <div class="wizard__success-icon">✓</div>
+        <h2>Booking confirmed!</h2>
+        <p>Your booking <strong>#{{ bookingId }}</strong> has been confirmed successfully.</p>
+        <button class="wizard__btn wizard__btn--primary" (click)="goToBookings()">View my bookings</button>
+      </div>
+    </div>
+  } @else {
+    <!-- Step Indicator -->
+    <div class="wizard__steps">
+      @for (step of steps; track $index) {
+        <div
+          class="wizard__step"
+          [class.wizard__step--active]="currentStep() === $index + 1"
+          [class.wizard__step--done]="currentStep() > $index + 1"
+          (click)="setStep($index + 1)">
+          <div class="wizard__step-circle">
+            @if (currentStep() > $index + 1) {
+              <span>✓</span>
+            } @else {
+              <span>{{ $index + 1 }}</span>
+            }
+          </div>
+          <span class="wizard__step-label">{{ step }}</span>
+        </div>
+        @if ($index < steps.length - 1) {
+          <div class="wizard__step-line" [class.wizard__step-line--done]="currentStep() > $index + 1"></div>
+        }
+      }
+    </div>
+
+    <!-- Step Content -->
+    <div class="wizard__body">
+
+      @if (currentStep() === 1) {
+        <!-- Step 1: Guest Info (pre-filled with mock data) -->
+        <div class="wizard__panel">
+          <h2>Guest Information</h2>
+          <div class="wizard__form-row">
+            <div class="wizard__field">
+              <label>First name</label>
+              <input type="text" [value]="guest.firstName" readonly />
+            </div>
+            <div class="wizard__field">
+              <label>Last name</label>
+              <input type="text" [value]="guest.lastName" readonly />
+            </div>
+          </div>
+          <div class="wizard__field">
+            <label>Email</label>
+            <input type="email" [value]="guest.email" readonly />
+          </div>
+          <div class="wizard__field">
+            <label>Phone</label>
+            <input type="tel" [value]="guest.phone" readonly />
+          </div>
+          <div class="wizard__field">
+            <label>Special requests</label>
+            <textarea rows="3" [value]="guest.specialRequests" readonly></textarea>
+          </div>
+          <div class="wizard__actions">
+            <button class="wizard__btn wizard__btn--primary" (click)="setStep(2)">Continue</button>
+          </div>
+        </div>
+      }
+
+      @if (currentStep() === 2) {
+        <!-- Step 2: Payment -->
+        <div class="wizard__panel">
+          <h2>Payment</h2>
+
+          <div class="wizard__summary">
+            <h3>Booking Summary</h3>
+            <div class="wizard__summary-row">
+              <span>Booking ID</span>
+              <span>#{{ bookingId }}</span>
+            </div>
+            <div class="wizard__summary-row wizard__summary-row--total">
+              <span>Total</span>
+              <span>—</span>
+            </div>
+          </div>
+
+          <div class="wizard__field">
+            <label>Cardholder name</label>
+            <input type="text" value="Jane Doe" />
+          </div>
+          <div class="wizard__field">
+            <label>Card number</label>
+            <input type="text" value="4242 4242 4242 4242" maxlength="19" />
+          </div>
+          <div class="wizard__form-row">
+            <div class="wizard__field">
+              <label>Expiry</label>
+              <input type="text" value="12 / 28" />
+            </div>
+            <div class="wizard__field">
+              <label>CVV</label>
+              <input type="text" value="123" maxlength="4" />
+            </div>
+          </div>
+
+          @if (paymentError()) {
+            <div class="wizard__error">Payment failed. Please try again.</div>
+          }
+
+          @if (isProcessing()) {
+            <div class="wizard__processing">
+              <div class="wizard__spinner"></div>
+              <span>Processing payment...</span>
+            </div>
+          }
+
+          <div class="wizard__actions">
+            <button class="wizard__btn wizard__btn--secondary" [disabled]="isProcessing()" (click)="setStep(1)">Back</button>
+            <button class="wizard__btn wizard__btn--primary" [disabled]="isProcessing()" (click)="confirmPayment()">
+              Confirm &amp; Pay
+            </button>
+          </div>
+        </div>
+      }
+
+    </div>
+  }
+</div>

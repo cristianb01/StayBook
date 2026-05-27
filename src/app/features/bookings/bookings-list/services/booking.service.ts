@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { PaginationFilters } from '../../../../common/pagination-filters.model';
 import { Observable } from 'rxjs';
 import { Booking } from '../models/booking.model';
+import { CreateBooking } from '../../../properties/models/create-booking.model';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({
@@ -20,6 +21,10 @@ export class BookingService {
     };
 
     return this.httpClient.get<Booking[]>(`${this.apiUrl}?skip=${skip}&take=${take}`);
+  }
+
+  public createBooking(booking: CreateBooking): Observable<Booking> {
+    return this.httpClient.post<Booking>(this.apiUrl, booking);
   }
 
   public confirmBooking(bookingId: number, paymentReferenceId: string): Observable<any> {
