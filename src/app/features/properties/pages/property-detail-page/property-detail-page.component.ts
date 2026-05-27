@@ -25,6 +25,7 @@ export class PropertyDetailPageComponent implements OnInit {
   public isLoading = signal<boolean>(false);
   public hasError = signal<boolean>(false);
   public isBooking = signal<boolean>(false);
+  public bookingError = signal<string | null>(null);
 
   public startDate: string = '';
   public endDate: string = '';
@@ -59,19 +60,21 @@ export class PropertyDetailPageComponent implements OnInit {
     const property = this.property();
     if (!property || !this.startDate || !this.endDate) return;
 
+    this.bookingError.set(null);
     try {
       this.isBooking.set(true);
-      const booking = await firstValueFrom(
+      const bookingId = Number(await firstValueFrom(
         this._bookingService.createBooking({
           userId: 1,
           propertyId: property.id,
           startDate: new Date(this.startDate),
           endDate: new Date(this.endDate)
         })
-      );
-      this._router.navigate(['/properties', property.id, 'payment', booking.id]);
-    } catch {
-      this.hasError.set(true);
+      ));
+      this._router.navigate(['/properties', property.id, 'payment', bookingId]);
+    } catch (err) {
+      console.error('Booking creation failed:', err);
+      this.bookingError.set('Failed to create booking. Please try again.');
     } finally {
       this.isBooking.set(false);
     }

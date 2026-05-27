@@ -23,8 +23,8 @@ export class BookingService {
     return this.httpClient.get<Booking[]>(`${this.apiUrl}?skip=${skip}&take=${take}`);
   }
 
-  public createBooking(booking: CreateBooking): Observable<Booking> {
-    return this.httpClient.post<Booking>(this.apiUrl, booking);
+  public createBooking(booking: CreateBooking): Observable<string> {
+    return this.httpClient.post(this.apiUrl, booking, { responseType: 'text' });
   }
 
   public confirmBooking(bookingId: number, paymentReferenceId: string): Observable<any> {

@@ -76,6 +76,9 @@
               (click)="onBook()">
               {{ isBooking() ? 'Booking...' : 'Book' }}
             </button>
+            @if (bookingError()) {
+              <p class="property-detail__booking-error">{{ bookingError() }}</p>
+            }
           </div>
         </div>
       </div>
