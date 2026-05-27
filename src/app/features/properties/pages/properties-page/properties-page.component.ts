@@ -65,6 +65,8 @@ export class PropertiesPageComponent implements OnInit {
   }
 
   public viewPropertyDetail(propertyId: number): void {
-    this.router.navigate(['/properties', propertyId]);
+    this.router.navigate(['/properties', propertyId], {
+      queryParams: { startDate: this.startDate, endDate: this.endDate }
+    });
   }
 }

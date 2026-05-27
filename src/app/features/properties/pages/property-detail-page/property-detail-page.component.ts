@@ -33,9 +33,16 @@ export class PropertyDetailPageComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     if (!isPlatformBrowser(this._platformId)) return;
 
-    const params = await firstValueFrom(this._route.params);
+    const [params, queryParams] = await Promise.all([
+      firstValueFrom(this._route.params),
+      firstValueFrom(this._route.queryParams)
+    ]);
+
     const id = Number(params['id']);
     if (!id) return;
+
+    if (queryParams['startDate']) this.startDate = queryParams['startDate'];
+    if (queryParams['endDate']) this.endDate = queryParams['endDate'];
 
     try {
       this.isLoading.set(true);
@@ -71,7 +78,9 @@ export class PropertyDetailPageComponent implements OnInit {
   }
 
   goBack(): void {
-    this._router.navigate(['/properties']);
+    this._router.navigate(['/properties'], {
+      queryParams: { startDate: this.startDate, endDate: this.endDate }
+    });
   }
 }
 

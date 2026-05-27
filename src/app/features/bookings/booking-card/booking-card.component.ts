@@ -22,6 +22,6 @@ export class BookingCardComponent {
   }
 
   onBook(): void {
-    this._router.navigate(['/properties', this.booking.propertyId]);
+    this._router.navigate(['/properties', this.booking.propertyId, 'payment', this.booking.id]);
   }
 }
