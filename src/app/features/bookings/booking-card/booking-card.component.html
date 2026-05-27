@@ -26,6 +26,11 @@
   </div>
 
   <div class="booking-card__footer">
-    Booked on {{ booking.createdAt | date:'mediumDate' }}
+    <div>Booked on {{ booking.createdAt | date:'mediumDate' }}</div>
+    @if (true) {
+      <button class="booking-card__confirm-btn" (click)="onPayAndConfirm()">
+        Pay and Confirm
+      </button>
+    }
   </div>
 </div>

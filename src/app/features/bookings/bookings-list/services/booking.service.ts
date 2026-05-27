@@ -21,4 +21,8 @@ export class BookingService {
 
     return this.httpClient.get<Booking[]>(`${this.apiUrl}?skip=${skip}&take=${take}`);
   }
+
+  public confirmBooking(bookingId: number, paymentReferenceId: string): Observable<any> {
+    return this.httpClient.post(`${this.apiUrl}/${bookingId}/confirm`, { paymentReferenceId });
+  }
 }

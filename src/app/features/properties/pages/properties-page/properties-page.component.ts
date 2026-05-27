@@ -5,6 +5,7 @@ import { SearchFilters } from '../../models/search-filters.model';
 import { Property } from '../../models/property.model';
 import { isPlatformBrowser } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
+import { CreateBooking } from '../../models/create-booking.model';
 
 @Component({
   selector: 'app-properties-page',
@@ -15,9 +16,13 @@ import { firstValueFrom } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PropertiesPageComponent implements OnInit {
-  properties = signal<Property[]>([]);
-  isLoading = signal<boolean>(false);
+
+  public properties = signal<Property[]>([]);
+  public isLoading = signal<boolean>(false);
   private platformId = inject(PLATFORM_ID);
+
+  public startDate!: Date;
+  public endDate!: Date;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,13 +36,13 @@ export class PropertiesPageComponent implements OnInit {
     }
 
     const params = await firstValueFrom(this.activatedRoute.queryParams);
-    const startDate = params['startDate'];
-    const endDate = params['endDate'];
+    this.startDate = params['startDate'];
+    this.endDate = params['endDate'];
 
-    if (startDate && endDate) {
+    if (this.startDate && this.endDate) {
       const searchFilters: SearchFilters = {
-        startDate: new Date(startDate),
-        endDate: new Date(endDate)
+        startDate: new Date(this.startDate),
+        endDate: new Date(this.endDate)
       };
 
       await this.loadProperties(searchFilters);
@@ -56,6 +61,21 @@ export class PropertiesPageComponent implements OnInit {
       this.properties.set([]);
     } finally {
       this.isLoading.set(false);
+    }
+  }
+
+  public async bookProperty(propertyId: number): Promise<void> {
+    try {
+      const booking: CreateBooking = {
+        userId: 1, // Replace with actual user ID
+        propertyId,
+        startDate: this.startDate,
+        endDate: this.endDate
+      };
+      await firstValueFrom(this.propertyService.createBooking(booking));
+      console.log(`Property with ID: ${propertyId} booked successfully.`);
+    } catch (error) {
+      console.error(`Error booking property with ID: ${propertyId}`, error);
     }
   }
 }
