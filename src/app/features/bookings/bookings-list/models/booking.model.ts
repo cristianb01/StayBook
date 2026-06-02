@@ -9,4 +9,5 @@ export interface Booking {
     endDate: Date;
     totalPrice: number;
     createdAt: Date;
+    expiresAt: Date;
 }

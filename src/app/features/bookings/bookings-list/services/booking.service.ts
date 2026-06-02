@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PaginationFilters } from '../../../../common/pagination-filters.model';
 import { Observable } from 'rxjs';
@@ -25,6 +25,10 @@ export class BookingService {
 
   public createBooking(booking: CreateBooking): Observable<string> {
     return this.httpClient.post(this.apiUrl, booking, { responseType: 'text' });
+  }
+
+  public getBookingById(bookingId: number): Observable<HttpResponse<Booking>> {
+    return this.httpClient.get<Booking>(`${this.apiUrl}/${bookingId}`, { observe: 'response' });
   }
 
   public confirmBooking(bookingId: number, paymentReferenceId: string): Observable<any> {
