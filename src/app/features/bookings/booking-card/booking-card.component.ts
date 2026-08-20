@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Booking } from '../bookings-list/models/booking.model';
@@ -8,6 +8,7 @@ import { BookingStatus } from '../bookings-list/models/booking-status.enum';
     selector: 'app-booking-card',
     imports: [CommonModule],
     templateUrl: './booking-card.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrls: ['./booking-card.component.scss']
 })
 export class BookingCardComponent {

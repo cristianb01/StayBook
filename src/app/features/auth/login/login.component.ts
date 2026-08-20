@@ -1,5 +1,5 @@
 
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { LoginService } from './login.service';
@@ -8,6 +8,7 @@ import { LoginService } from './login.service';
     selector: 'app-login',
     imports: [ReactiveFormsModule],
     templateUrl: './login.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './login.component.scss'
 })
 export class LoginComponent {
