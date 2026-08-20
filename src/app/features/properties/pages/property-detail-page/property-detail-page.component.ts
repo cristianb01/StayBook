@@ -8,11 +8,10 @@ import { BookingService } from '../../../bookings/bookings-list/services/booking
 import { Property } from '../../models/property.model';
 
 @Component({
-  selector: 'app-property-detail-page',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './property-detail-page.component.html',
-  styleUrl: './property-detail-page.component.scss'
+    selector: 'app-property-detail-page',
+    imports: [CommonModule, FormsModule],
+    templateUrl: './property-detail-page.component.html',
+    styleUrl: './property-detail-page.component.scss'
 })
 export class PropertyDetailPageComponent implements OnInit {
   private readonly _route = inject(ActivatedRoute);

@@ -7,7 +7,6 @@ import { SearchFilters } from '../../features/properties/models/search-filters.m
 
 @Component({
     selector: 'app-layout',
-    standalone: true,
     imports: [RouterOutlet, MatSidenavModule, NavbarComponent, SidenavComponent],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',

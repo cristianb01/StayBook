@@ -17,11 +17,10 @@ const MOCK_GUEST = {
 };
 
 @Component({
-  selector: 'app-payment-wizard-page',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './payment-wizard-page.component.html',
-  styleUrl: './payment-wizard-page.component.scss'
+    selector: 'app-payment-wizard-page',
+    imports: [CommonModule],
+    templateUrl: './payment-wizard-page.component.html',
+    styleUrl: './payment-wizard-page.component.scss'
 })
 export class PaymentWizardPageComponent {
   private readonly _route = inject(ActivatedRoute);

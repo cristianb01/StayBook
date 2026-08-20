@@ -4,11 +4,10 @@ import { Booking } from './models/booking.model';
 import { BookingCardComponent } from '../booking-card/booking-card.component';
 
 @Component({
-  selector: 'app-bookings-list',
-  standalone: true,
-  imports: [BookingCardComponent],
-  templateUrl: './bookings-list.component.html',
-  styleUrl: './bookings-list.component.scss'
+    selector: 'app-bookings-list',
+    imports: [BookingCardComponent],
+    templateUrl: './bookings-list.component.html',
+    styleUrl: './bookings-list.component.scss'
 })
 export class BookingsListComponent implements OnInit {
   private readonly _bookingsService = inject(BookingService);

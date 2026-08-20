@@ -12,7 +12,6 @@ import { SearchFilters } from '../../../features/properties/models/search-filter
 
 @Component({
     selector: 'app-navbar',
-    standalone: true,
     imports: [
         MatToolbarModule,
         MatIconModule,

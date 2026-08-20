@@ -7,12 +7,11 @@ import { isPlatformBrowser } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-properties-page',
-  standalone: true,
-  imports: [],
-  templateUrl: './properties-page.component.html',
-  styleUrl: './properties-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-properties-page',
+    imports: [],
+    templateUrl: './properties-page.component.html',
+    styleUrl: './properties-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PropertiesPageComponent implements OnInit {
 
