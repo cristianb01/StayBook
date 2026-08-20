@@ -2,7 +2,8 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
-import { LoginService } from './login.service';
+import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -13,7 +14,8 @@ import { LoginService } from './login.service';
 })
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly loginService = inject(LoginService);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   readonly loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required]],
@@ -27,8 +29,9 @@ export class LoginComponent {
     }
 
     const credentials = this.loginForm.getRawValue();
-    await lastValueFrom(this.loginService.login(credentials.email, credentials.password));
-
+    var response = await lastValueFrom(this.authService.login(credentials.email, credentials.password));
+    this.authService.setSession(response.accessToken, response.expiresAtUtc);
+    this.router.navigate(['/']);
   }
 
   get emailFormField() {
