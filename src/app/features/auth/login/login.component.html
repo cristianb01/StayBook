@@ -1,0 +1,16 @@
+<div class="login-page-wrapper">
+    <form class="login-page-wrapper__login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <input type="text" placeholder="Email" formControlName="email" />
+        <div *ngIf="emailFormField.invalid && emailFormField.touched">
+            Email is required.
+        </div>
+
+        <input type="password" placeholder="Password" formControlName="password" />
+        <div *ngIf="passwordFormField.invalid && passwordFormField.touched">
+            <div *ngIf="passwordFormField.errors?.['required']">Password is required.</div>
+            <div *ngIf="passwordFormField.errors?.['minlength']">Password must be at least 6 characters.</div>
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+</div>

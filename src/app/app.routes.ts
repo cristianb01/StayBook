@@ -27,5 +27,14 @@ export const routes: Routes = [
                 loadComponent: () => import('./features/properties/pages/payment-wizard-page/payment-wizard-page.component').then(m => m.PaymentWizardPageComponent)
             }
         ]
+    },
+    {
+        path: 'login',
+        loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent),
+    },
+    {
+        path: '**',
+        pathMatch: 'full',
+        redirectTo: 'bookings'
     }
 ];
