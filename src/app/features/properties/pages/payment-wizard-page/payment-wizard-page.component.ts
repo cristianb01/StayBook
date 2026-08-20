@@ -1,7 +1,7 @@
 import { Component, signal, inject } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { firstValueFrom } from 'rxjs';
 import { BookingService } from '../../../bookings/bookings-list/services/booking.service';
 import { Booking } from '../../../bookings/bookings-list/models/booking.model';
@@ -18,7 +18,7 @@ const MOCK_GUEST = {
 
 @Component({
     selector: 'app-payment-wizard-page',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './payment-wizard-page.component.html',
     styleUrl: './payment-wizard-page.component.scss'
 })

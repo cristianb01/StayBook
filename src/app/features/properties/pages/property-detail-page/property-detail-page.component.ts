@@ -1,6 +1,6 @@
 import { Component, OnInit, signal, inject, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { PropertyService } from '../../property.service';
@@ -9,7 +9,7 @@ import { Property } from '../../models/property.model';
 
 @Component({
     selector: 'app-property-detail-page',
-    imports: [CommonModule, FormsModule],
+    imports: [FormsModule],
     templateUrl: './property-detail-page.component.html',
     styleUrl: './property-detail-page.component.scss'
 })
