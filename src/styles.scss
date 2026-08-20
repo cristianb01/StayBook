@@ -4,7 +4,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .error-snackbar {
-    --mdc-snackbar-container-color: #b00020;
-    --mdc-snackbar-supporting-text-color: #fff;
+    --mat-snackbar-container-color: #b00020;
+    --mat-snackbar-supporting-text-color: #fff;
     --mat-snack-bar-button-color: #fff;
 }
