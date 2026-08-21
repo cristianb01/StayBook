@@ -25,7 +25,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
                     notificationService.showError(message);
                     break;
                 case 401:
-                    if (isBrowser) {
+                    if (!req.url.includes('auth/login')) {
                         router.navigate(['/login']);
                     }
                     break;
@@ -33,7 +33,6 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
                     notificationService.showError('You do not have permission to perform this action.');
                     break;
                 case 404:
-                    notificationService.showError('The requested resource was not found.');
                     break;
                 case 500:
                     notificationService.showError('A server error occurred. Please try again later.');

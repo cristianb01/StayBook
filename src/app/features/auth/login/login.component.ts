@@ -4,6 +4,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../core/services/notification.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-login',
@@ -16,6 +18,7 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly notificationService = inject(NotificationService);
 
   readonly loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required]],
@@ -29,9 +32,16 @@ export class LoginComponent {
     }
 
     const credentials = this.loginForm.getRawValue();
-    var response = await lastValueFrom(this.authService.login(credentials.email, credentials.password));
-    this.authService.setSession(response.accessToken, response.expiresAtUtc);
-    this.router.navigate(['/']);
+    try {
+      var response = await lastValueFrom(this.authService.login(credentials.email, credentials.password));
+      this.authService.setSession(response.accessToken, response.expiresAtUtc);
+      this.router.navigate(['/']);
+    }
+    catch (error: any) {
+      if (error instanceof HttpErrorResponse && error.status === 401) {
+        this.notificationService.showError('Invalid email or password. Please try again.');
+      }
+    }
   }
 
   get emailFormField() {
