@@ -1,5 +1,5 @@
 
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { lastValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -25,6 +25,8 @@ export class LoginComponent {
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
+  public isLoading = signal(false);
+
   public async onSubmit(): Promise<void> {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -33,6 +35,7 @@ export class LoginComponent {
 
     const credentials = this.loginForm.getRawValue();
     try {
+      this.isLoading.set(true);
       var response = await lastValueFrom(this.authService.login(credentials.email, credentials.password));
       this.authService.setSession(response.accessToken, response.expiresAtUtc);
       this.router.navigate(['/']);
@@ -41,6 +44,9 @@ export class LoginComponent {
       if (error instanceof HttpErrorResponse && error.status === 401) {
         this.notificationService.showError('Invalid email or password. Please try again.');
       }
+    }
+    finally {
+      this.isLoading.set(false);
     }
   }
 

@@ -1,5 +1,7 @@
-@for (booking of bookings(); track booking.id) {
-  <app-booking-card 
-    [booking]="booking">
-  </app-booking-card>
-}
+<div class="booking-list-wrapper">
+  @for (booking of bookings(); track booking.id) {
+    <app-booking-card 
+      [booking]="booking">
+    </app-booking-card>
+  }
+</div>

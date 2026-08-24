@@ -19,6 +19,11 @@
       </div>
     }
 
-    <button type="submit">Login</button>
+    <button type="submit">
+      <span>{{ isLoading() ? 'Loading...' : 'Login' }}</span>
+      @if (isLoading()) {
+        <div class="spinner-border spinner-border-sm" role="status"></div>
+      }
+    </button>
   </form>
 </div>

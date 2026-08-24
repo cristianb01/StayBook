@@ -27,9 +27,9 @@
 
   <div class="booking-card__footer">
     <div>Booked on {{ booking.createdAt | date:'mediumDate' }}</div>
-    @if (true) {
-      <button class="booking-card__confirm-btn" (click)="onBook()">
-        Book
+    @if (booking.status === BookingStatus.Pending) {
+      <button class="btn btn-outline-success" (click)="onBook()">
+        Confirm Booking
       </button>
     }
   </div>
