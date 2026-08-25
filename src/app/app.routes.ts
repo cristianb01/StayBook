@@ -25,6 +25,10 @@ export const routes: Routes = [
                 loadComponent: () => import('./features/properties/pages/property-detail-page/property-detail-page.component').then(m => m.PropertyDetailPageComponent)
             },
             {
+                path: 'conversations/:bookingId',
+                loadComponent: () => import('./features/conversations/conversations.component').then(m => m.ConversationsComponent)
+            },
+            {
                 path: 'properties/:id/payment/:bookingId',
                 loadComponent: () => import('./features/properties/pages/payment-wizard-page/payment-wizard-page.component').then(m => m.PaymentWizardPageComponent)
             }

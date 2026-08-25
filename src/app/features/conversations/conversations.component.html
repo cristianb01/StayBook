@@ -1,0 +1,7 @@
+<div class="conversations-page-wrapper">
+    <div class="conversations-page-wrapper__messages-container">
+        @for (message of messages(); track message.id) {
+            <p> - {{ message.content }}</p>
+        }
+    </div>
+</div>
