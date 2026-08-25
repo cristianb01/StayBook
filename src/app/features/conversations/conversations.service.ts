@@ -9,9 +9,9 @@ import { environment } from '../../../environments/environment.development';
 })
 export class ConversationsService {
     constructor(private readonly http: HttpClient) {}
-    private readonly apiUrl = `${environment.apiUrl}/api/v1/conversation`;
+    private readonly apiUrl = `${environment.apiUrl}`;
 
     public getConversationByBookingId(bookingId: number): Observable<Conversation> {
-        return this.http.get<Conversation>(`${this.apiUrl}/${bookingId}`);
+        return this.http.get<Conversation>(`${this.apiUrl}/bookings/${bookingId}/conversation`);
     }
 }
