@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { conversationResolver } from './core/resolvers/conversation.resolver';
 
 export const routes: Routes = [
     {
@@ -25,12 +26,15 @@ export const routes: Routes = [
                 loadComponent: () => import('./features/properties/pages/property-detail-page/property-detail-page.component').then(m => m.PropertyDetailPageComponent)
             },
             {
-                path: 'conversations/:bookingId',
+                path: 'bookings/:bookingId/conversation',
                 loadComponent: () => import('./features/conversations/conversations.component').then(m => m.ConversationsComponent)
             },
             {
                 path: 'properties/:id/payment/:bookingId',
-                loadComponent: () => import('./features/properties/pages/payment-wizard-page/payment-wizard-page.component').then(m => m.PaymentWizardPageComponent)
+                loadComponent: () => import('./features/properties/pages/payment-wizard-page/payment-wizard-page.component').then(m => m.PaymentWizardPageComponent),
+                resolve: {
+                    conversation: conversationResolver
+                }
             }
         ]
     },

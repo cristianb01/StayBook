@@ -9,5 +9,7 @@ export interface Message {
     id: number;
     content: string;
     createdAt: string;
+    senderId: number;
+    isMine: boolean;
     readAt?: string;
 }

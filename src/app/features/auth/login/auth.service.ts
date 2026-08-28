@@ -9,7 +9,7 @@ import { LoginResponse } from './models/login-response.model';
 })
 export class AuthService {
 
-  private readonly apiUrl = `${environment.apiUrl}/api/v1/auth`;
+  private readonly apiUrl = `${environment.apiUrl}/auth`;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -47,5 +47,15 @@ export class AuthService {
   public logout(): void {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('expiresAtUtc');
+  }
+
+  public get getUserId(): number | null {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      return null;
+    }
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userId = payload.sub != null ? Number(payload.sub) : null;
+    return userId;
   }
 }

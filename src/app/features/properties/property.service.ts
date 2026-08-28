@@ -22,14 +22,14 @@ export class PropertyService {
           endDate: searchFilters.endDate.toISOString().split('T')[0]
       };
       
-      return this.httpClient.get<Property[]>(`${this.apiUrl}/api/v1/property`, { params });
+      return this.httpClient.get<Property[]>(`${this.apiUrl}/property`, { params });
   }
   
   public getPropertyById(id: number): Observable<Property> {
-      return this.httpClient.get<Property>(`${this.apiUrl}/api/v1/property/${id}`);
+      return this.httpClient.get<Property>(`${this.apiUrl}/property/${id}`);
   }
 
   public createBooking(booking: CreateBooking): Observable<any> {
-      return this.httpClient.post(`${this.apiUrl}/api/v1/booking`, booking);
+      return this.httpClient.post(`${this.apiUrl}/booking`, booking);
   }
 }

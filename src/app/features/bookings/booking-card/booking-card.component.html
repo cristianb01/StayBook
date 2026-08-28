@@ -32,5 +32,11 @@
         Confirm Booking
       </button>
     }
+
+    @if (booking.status === BookingStatus.Confirmed) {
+      <button class="btn btn-outline-info" [routerLink]="'/bookings/' + booking.id + '/conversation'">
+        Message host
+      </button>
+    }
   </div>
 </div>

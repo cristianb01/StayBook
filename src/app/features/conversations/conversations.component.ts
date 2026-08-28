@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, switchMap } from 'rxjs';
 import { ConversationsService } from './conversations.service';
+import { Conversation } from './models/conversations.model';
 
 @Component({
   imports: [],
@@ -12,17 +13,22 @@ import { ConversationsService } from './conversations.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConversationsComponent {
+export class ConversationsComponent implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
   private readonly conversationsService = inject(ConversationsService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private conversation!: Conversation;
+  
+  constructor() {
+    effect(() => {
+      console.log(this.messages());
+    });
+  }
 
-  public readonly conversation = toSignal(
-    this.route.paramMap.pipe(
-      map(params => Number(params.get('bookingId'))),
-      switchMap(id => this.conversationsService.getConversationByBookingId(id))
-    )
-  );
+  ngOnInit(): void {
+    this.conversation = this.route.snapshot.data['conversation'];
+  }
 
   public readonly messages = computed(() => this.conversation()?.messages ?? []);
 
