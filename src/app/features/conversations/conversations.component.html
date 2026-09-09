@@ -1,10 +1,17 @@
 <div class="conversations-page-wrapper">
+    <div class="header">{{ receiver.userName }}</div>
     <div class="messages-container">
-        @for (message of messages(); track message.id) {
+        @for (message of messages; track message.id) {
             <p class="messages-container__message" 
                 [class.messages-container__message--mine]="message.isMine">
                 {{ message.content }}
             </p>
         }
     </div>
+
+    @if (errorMessage) {
+        <div class="conversations-page-wrapper__error-message">
+            {{ errorMessage }}
+        </div>
+    }
 </div>

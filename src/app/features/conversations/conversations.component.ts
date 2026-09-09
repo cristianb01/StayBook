@@ -4,6 +4,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map, switchMap } from 'rxjs';
 import { ConversationsService } from './conversations.service';
 import { Conversation } from './models/conversations.model';
+import { AuthService } from '../auth/login/auth.service';
+import { User } from '../../shared/models/user.model';
 
 @Component({
   imports: [],
@@ -16,20 +18,32 @@ import { Conversation } from './models/conversations.model';
 export class ConversationsComponent implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
-  private readonly conversationsService = inject(ConversationsService);
-  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly authService = inject(AuthService);
   private conversation!: Conversation;
+
+  public errorMessage: string | null = null;
   
   constructor() {
-    effect(() => {
-      console.log(this.messages());
-    });
   }
 
   ngOnInit(): void {
     this.conversation = this.route.snapshot.data['conversation'];
+
+    this.errorMessage = this.conversation ? null : 'Failed to load conversation.';
   }
 
-  public readonly messages = computed(() => this.conversation()?.messages ?? []);
+  public get messages() {
+    return this.conversation?.messages ?? [];
+  }
+
+  public get iAmHost(): boolean {
+    return this.authService.getUserId === this.conversation.host.id;
+  }
+
+  public get receiver(): User {
+    return this.iAmHost ?
+      this.conversation.guest
+      : this.conversation.host;
+  }
 
 }

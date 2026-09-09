@@ -15,7 +15,6 @@ export class ConversationsService {
 
     constructor(private readonly http: HttpClient, private readonly authService: AuthService) {
         this.userId = this.authService.getUserId;
-        console.log('userId', this.userId);
     }
 
     public getConversationByBookingId(bookingId: number): Observable<Conversation> {
