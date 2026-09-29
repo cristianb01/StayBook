@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map, switchMap } from 'rxjs';
 import { ConversationsService } from './conversations.service';
-import { Conversation } from './models/conversations.model';
+import { BookingConversation } from './models/conversations.model';
 import { AuthService } from '../auth/login/auth.service';
 import { User } from '../../shared/models/user.model';
 
@@ -19,7 +19,7 @@ export class ConversationsComponent implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
-  private conversation!: Conversation;
+  private bookingConversation!: BookingConversation;
 
   public errorMessage: string | null = null;
   
@@ -27,23 +27,24 @@ export class ConversationsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.conversation = this.route.snapshot.data['conversation'];
+    this.bookingConversation = this.route.snapshot.data['conversation'];
+    debugger;
 
-    this.errorMessage = this.conversation ? null : 'Failed to load conversation.';
+    this.errorMessage = this.bookingConversation?.conversation?.messages.length ? null : 'No messages yet';
   }
 
   public get messages() {
-    return this.conversation?.messages ?? [];
+    return this.bookingConversation?.conversation?.messages ?? [];
   }
 
   public get iAmHost(): boolean {
-    return this.authService.getUserId === this.conversation.host.id;
+    return this.authService.getUserId === this.bookingConversation?.host.id;
   }
 
   public get receiver(): User {
     return this.iAmHost ?
-      this.conversation.guest
-      : this.conversation.host;
+      this.bookingConversation.guest
+      : this.bookingConversation.host;
   }
 
 }

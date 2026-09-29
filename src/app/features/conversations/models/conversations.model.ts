@@ -1,11 +1,16 @@
 import { User } from "../../../shared/models/user.model";
 
-export interface Conversation {
-    id: number;
+export interface BookingConversation {
     bookingId: number;
-    messages: Message[];
+    conversation: Conversation | null;
     guest: User;
     host: User;
+    createdAt: string;
+}
+
+export interface Conversation {
+    id: number;
+    messages: Message[];
     createdAt: string;
 }
 
