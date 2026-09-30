@@ -28,4 +28,8 @@ export class ConversationsService {
     public createConversation(bookingId: number): Observable<number> {
         return this.http.post<number>(`${this.apiUrl}/bookings/${bookingId}/conversation`, {});
     }
+
+    public sendMessage(bookingId: number, messageContent: string): Observable<Message> {
+        return this.http.post<Message>(`${this.apiUrl}/bookings/${bookingId}/conversation/messages`, { content: messageContent });
+    }
 }

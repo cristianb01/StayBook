@@ -7,6 +7,13 @@
                 {{ message.content }}
             </p>
         }
+        <input 
+            type="text" 
+            class="conversations-page-wrapper__input" 
+            [formControl]="newMessageFormControl" 
+            (keyup.enter)="sendMessage()" 
+            placeholder="Type a message..." 
+        />
     </div>
 
     @if (errorMessage) {
