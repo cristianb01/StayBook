@@ -4,12 +4,20 @@
         @for (message of messages; track message.id) {
             <p class="messages-container__message" 
                 [class.messages-container__message--mine]="message.isMine">
-                {{ message.content }}
+                <span>{{ message.content }}</span>
+                <mat-icon class="messages-container__message-status">check</mat-icon>
+            </p>
+        }
+
+        @for (unsentMessage of unsentMessages(); track unsentMessage.id) {
+            <p class="messages-container__message messages-container__message--mine">
+                <span>{{ unsentMessage.content }}</span>
+                <mat-icon class="messages-container__message-status">schedule</mat-icon>
             </p>
         }
         <input 
             type="text" 
-            class="conversations-page-wrapper__input" 
+            class="messages-container__input" 
             [formControl]="newMessageFormControl" 
             (keyup.enter)="sendMessage()" 
             placeholder="Type a message..." 

@@ -1,6 +1,7 @@
 .conversations-page-wrapper {
     display: grid;
     place-items: center;
+    font-size: 14px;
 
     &__error-message {
         color: red;
@@ -26,10 +27,24 @@
         border-radius: 15px;
         background-color: #e0e0e0;
 
+        display: flex;
+        align-items: center;
+
         &--mine {
             align-self: flex-end;
             background-color: #bceefb;
         }
+    }
+
+    &__input {
+        margin-top: 1rem;
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+
+    &__message-status {
+        scale: 0.6;
     }
 
 }
