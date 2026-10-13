@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { ChatSignalrService } from '../../core/services/chat-signalr.service';
 import { UnsentMessagesService } from './services/unsent-messages.service';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormControl } from '@angular/forms';
@@ -29,6 +30,7 @@ export class ConversationsComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly conversationsService = inject(ConversationsService);
   private readonly unsentMessagesService = inject(UnsentMessagesService);
+  private readonly chatSignalrService = inject(ChatSignalrService);
 
   private bookingConversation!: BookingConversation;
 
@@ -44,7 +46,7 @@ export class ConversationsComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.bookingConversation = this.route.snapshot.data['conversation'];
 
     this.errorMessage = this.bookingConversation?.conversation?.messages.length
@@ -52,6 +54,33 @@ export class ConversationsComponent implements OnInit {
       : 'No messages yet';
 
     this.unsentMessagesService.checkUnsetMessages(this.bookingConversation);
+
+    try {
+      await this.chatSignalrService.startConnection();
+      console.log('SignalR connection started successfully');
+    } catch (error) {
+      console.error('Failed to start SignalR connection', error);
+    }
+    
+    this.checkForReceivedMessages();
+
+    await this.chatSignalrService.joinConversation(this.bookingConversation.bookingId);
+
+  }
+
+  public checkForReceivedMessages(): void {
+    this.chatSignalrService.onMessageReceived((message) => {
+      console.log('Message received:', message);
+      const mappedMessage: Message = {
+        id: message.id,
+        senderId: message.senderId,
+        content: message.content,
+        createdAt: message.createdAtUtc,
+        isMine: message.senderId === this.authService.getUserId,
+      };
+
+      this.bookingConversation.conversation?.messages.push(mappedMessage);
+    });
   }
 
 
@@ -67,14 +96,14 @@ export class ConversationsComponent implements OnInit {
       this.bookingConversation.conversation?.messages ?? []
     );
 
-    const newMessage = await lastValueFrom(
+    await lastValueFrom(
       this.conversationsService.sendMessage(
         this.bookingConversation.bookingId,
         messageContent,
       ),
     );
-    newMessage.isMine = newMessage.senderId === this.authService.getUserId;
-    this.bookingConversation.conversation?.messages.push(newMessage);
+    // newMessage.isMine = newMessage.senderId === this.authService.getUserId;
+    // this.bookingConversation.conversation?.messages.push(newMessage);
 
     this.newMessageFormControl.reset();
     this.unsentMessagesService.removeUnsentMessage(unsentMessage.id);
