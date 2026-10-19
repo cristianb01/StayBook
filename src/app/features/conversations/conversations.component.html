@@ -4,14 +4,16 @@
         @for (message of messages; track message.id) {
             <p class="messages-container__message" 
                 [class.messages-container__message--mine]="message.isMine">
-                <span>{{ message.content }}</span>
-                <mat-icon class="messages-container__message-status">check</mat-icon>
+                <span class="messages-container__message-content">{{ message.content }}</span>
+                @if (message.isMine) {
+                    <mat-icon  class="messages-container__message-status">check</mat-icon>
+                }
             </p>
         }
 
         @for (unsentMessage of unsentMessages(); track unsentMessage.id) {
             <p class="messages-container__message messages-container__message--mine">
-                <span>{{ unsentMessage.content }}</span>
+                <span class="messages-container__message-content">{{ unsentMessage.content }}</span>
                 <mat-icon class="messages-container__message-status">schedule</mat-icon>
             </p>
         }

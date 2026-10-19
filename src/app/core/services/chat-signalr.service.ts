@@ -38,4 +38,6 @@ export class ChatSignalrService {
     public onMessageReceived(callback: (message: MessageReceivedDto) => void): void {
         this.connection?.on('MessageReceived', callback);
     }
+
+    // TODO: Implement typing... command
 }

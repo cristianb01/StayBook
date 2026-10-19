@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { ChatSignalrService } from '../../core/services/chat-signalr.service';
 import { UnsentMessagesService } from './services/unsent-messages.service';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
@@ -31,6 +31,7 @@ export class ConversationsComponent implements OnInit {
   private readonly conversationsService = inject(ConversationsService);
   private readonly unsentMessagesService = inject(UnsentMessagesService);
   private readonly chatSignalrService = inject(ChatSignalrService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   private bookingConversation!: BookingConversation;
 
@@ -62,9 +63,9 @@ export class ConversationsComponent implements OnInit {
       console.error('Failed to start SignalR connection', error);
     }
     
-    this.checkForReceivedMessages();
-
     await this.chatSignalrService.joinConversation(this.bookingConversation.bookingId);
+    
+    this.checkForReceivedMessages();
 
   }
 
@@ -80,6 +81,8 @@ export class ConversationsComponent implements OnInit {
       };
 
       this.bookingConversation.conversation?.messages.push(mappedMessage);
+
+      this.changeDetectorRef.detectChanges();
     });
   }
 
