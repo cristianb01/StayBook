@@ -1,16 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
 import { ChatSignalrService } from '../../core/services/chat-signalr.service';
 import { UnsentMessagesService } from './services/unsent-messages.service';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { lastValueFrom, map, switchMap } from 'rxjs';
 import { ConversationsService } from './conversations.service';
 import { BookingConversation, Message } from './models/conversations.model';
 import { AuthService } from '../auth/login/auth.service';
 import { User } from '../../shared/models/user.model';
 import { MatIcon } from '@angular/material/icon';
+import { debounceTime } from 'rxjs/operators';
 
 export interface UnsentMessage {
   id: number;
@@ -32,6 +33,7 @@ export class ConversationsComponent implements OnInit {
   private readonly unsentMessagesService = inject(UnsentMessagesService);
   private readonly chatSignalrService = inject(ChatSignalrService);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   private bookingConversation!: BookingConversation;
 
@@ -44,7 +46,6 @@ export class ConversationsComponent implements OnInit {
 
   public unsentMessages = this.unsentMessagesService.unsentMessages;
 
-
   constructor() {}
 
   async ngOnInit(): Promise<void> {
@@ -56,22 +57,36 @@ export class ConversationsComponent implements OnInit {
 
     this.unsentMessagesService.checkUnsetMessages(this.bookingConversation);
 
+    await this.startHub();
+
+    this.checkFormControlTyping();
+  }
+
+  // #region Hub Methods
+
+  private async startHub(): Promise<void> {
+    await this.startHubConnection();
+
+    await this.chatSignalrService.joinConversation(
+      this.bookingConversation.bookingId,
+    );
+
+    this.listenForHubReceivedMessages();
+    this.listenForHubTyping();
+    this.listenForHubStopTyping();
+  }
+
+  private async startHubConnection(): Promise<void> {
     try {
       await this.chatSignalrService.startConnection();
       console.log('SignalR connection started successfully');
     } catch (error) {
       console.error('Failed to start SignalR connection', error);
     }
-    
-    await this.chatSignalrService.joinConversation(this.bookingConversation.bookingId);
-    
-    this.checkForReceivedMessages();
-
   }
 
-  public checkForReceivedMessages(): void {
+  public listenForHubReceivedMessages(): void {
     this.chatSignalrService.onMessageReceived((message) => {
-      console.log('Message received:', message);
       const mappedMessage: Message = {
         id: message.id,
         senderId: message.senderId,
@@ -86,6 +101,26 @@ export class ConversationsComponent implements OnInit {
     });
   }
 
+  public listenForHubTyping(): void {
+    this.chatSignalrService.onTyping(() => {
+      console.log('Typing received');
+    });
+  }
+
+  public listenForHubStopTyping(): void {
+    this.chatSignalrService.onStopTyping(() => {
+      console.log('Stop typing received');
+    });
+  }
+  // #endregion Hub Methods
+
+  private checkFormControlTyping(): void {
+    this.newMessageFormControl.valueChanges
+      .pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.chatSignalrService.sendTyping(this.bookingConversation.bookingId);
+      });
+  }
 
   public async sendMessage(): Promise<void> {
     if (this.newMessageFormControl.invalid) {
@@ -96,7 +131,7 @@ export class ConversationsComponent implements OnInit {
 
     const unsentMessage = this.unsentMessagesService.addUnsentMessage(
       messageContent,
-      this.bookingConversation.conversation?.messages ?? []
+      this.bookingConversation.conversation?.messages ?? [],
     );
 
     await lastValueFrom(
@@ -111,7 +146,6 @@ export class ConversationsComponent implements OnInit {
     this.newMessageFormControl.reset();
     this.unsentMessagesService.removeUnsentMessage(unsentMessage.id);
   }
-
 
   // Getters
 
