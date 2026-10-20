@@ -1,6 +1,6 @@
 <div class="conversations-page-wrapper">
     <div class="header">{{ receiver.userName }}</div>
-    <div class="messages-container">
+    <div class="messages-container" #messagesContainer>
         @for (message of messages; track message.id) {
             <p class="messages-container__message" 
                 [class.messages-container__message--mine]="message.isMine">

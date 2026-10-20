@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
+import { afterRenderEffect, ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, ElementRef, inject, OnInit, viewChild } from '@angular/core';
 import { ChatSignalrService } from '../../core/services/chat-signalr.service';
 import { UnsentMessagesService } from './services/unsent-messages.service';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
@@ -49,7 +49,21 @@ export class ConversationsComponent implements OnInit {
   private typingTimeout?: ReturnType<typeof setTimeout>;
   public isOtherUserTyping = false;
 
-  constructor() {}
+  private readonly messagesContainer =
+    viewChild<ElementRef<HTMLElement>>('messagesContainer');
+
+  constructor() {
+    // Runs after the initial render and whenever unsent messages change
+    afterRenderEffect(() => {
+      this.unsentMessages();
+      this.scrollToBottom();
+    });
+  }
+
+  private scrollToBottom(): void {
+    const container = this.messagesContainer()?.nativeElement;
+    container?.scrollTo({ top: container.scrollHeight });
+  }
 
   async ngOnInit(): Promise<void> {
     this.bookingConversation = this.route.snapshot.data['conversation'];
@@ -101,6 +115,7 @@ export class ConversationsComponent implements OnInit {
       this.bookingConversation.conversation?.messages.push(mappedMessage);
 
       this.changeDetectorRef.detectChanges();
+      this.scrollToBottom();
     });
   }
 
@@ -155,8 +170,6 @@ export class ConversationsComponent implements OnInit {
         messageContent,
       ),
     );
-    // newMessage.isMine = newMessage.senderId === this.authService.getUserId;
-    // this.bookingConversation.conversation?.messages.push(newMessage);
 
     this.newMessageFormControl.reset();
     this.unsentMessagesService.removeUnsentMessage(unsentMessage.id);
