@@ -45,6 +45,9 @@ export class ConversationsComponent implements OnInit {
   });
 
   public unsentMessages = this.unsentMessagesService.unsentMessages;
+  private isTyping = false;
+  private typingTimeout?: ReturnType<typeof setTimeout>;
+  public isOtherUserTyping = false;
 
   constructor() {}
 
@@ -103,22 +106,34 @@ export class ConversationsComponent implements OnInit {
 
   public listenForHubTyping(): void {
     this.chatSignalrService.onTyping(() => {
-      console.log('Typing received');
+      this.isOtherUserTyping = true;
+      this.changeDetectorRef.detectChanges();
     });
   }
 
   public listenForHubStopTyping(): void {
     this.chatSignalrService.onStopTyping(() => {
-      console.log('Stop typing received');
+      this.isOtherUserTyping = false;
+      this.changeDetectorRef.detectChanges();
     });
   }
   // #endregion Hub Methods
 
   private checkFormControlTyping(): void {
     this.newMessageFormControl.valueChanges
-      .pipe(debounceTime(300), takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.chatSignalrService.sendTyping(this.bookingConversation.bookingId);
+        if (!this.isTyping) {
+          this.isTyping = true;
+          void this.chatSignalrService.sendTyping(this.bookingConversation.bookingId);
+        }
+
+        clearTimeout(this.typingTimeout);
+
+        this.typingTimeout = setTimeout(() => {
+          this.isTyping = false;
+          void this.chatSignalrService.sendStopTyping(this.bookingConversation.bookingId);
+        }, 1500)
       });
   }
 
@@ -145,6 +160,7 @@ export class ConversationsComponent implements OnInit {
 
     this.newMessageFormControl.reset();
     this.unsentMessagesService.removeUnsentMessage(unsentMessage.id);
+    this.chatSignalrService.sendStopTyping(this.bookingConversation.bookingId);
   }
 
   // Getters

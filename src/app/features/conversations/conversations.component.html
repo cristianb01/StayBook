@@ -17,13 +17,22 @@
                 <mat-icon class="messages-container__message-status">schedule</mat-icon>
             </p>
         }
+        @if (isOtherUserTyping) {
+            <div class="messages-container__typing" role="status" aria-label="Typing">
+                <span>Typing</span>
+                <span class="messages-container__typing-dots" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+        }
         <input 
             type="text" 
             class="messages-container__input" 
             [formControl]="newMessageFormControl" 
             (keyup.enter)="sendMessage()" 
-            placeholder="Type a message..." 
-        />
+            placeholder="Type a message..." />
     </div>
 
     @if (errorMessage) {
